@@ -13,12 +13,21 @@
 	},
 	"require": {
 		"php": "^7.4 || ^8.0",
-		"infinum/eightshift-libs": "*"
+		"infinum/eightshift-libs": "*",
+    "typisttech/imposter-plugin": "*"
 	},
   "config": {
     "allow-plugins": {
       "dealerdirect/phpcodesniffer-composer-installer": true,
       "typisttech/imposter-plugin": true
     }
-  }
+  },
+  "extra": {
+    "imposter": {
+        "namespace": "Cavalo\\Trucado\\Rest\\Api",
+        "excludes": [
+            "dummy/dummy-excluded"
+        ]
+    }
+}
 }
