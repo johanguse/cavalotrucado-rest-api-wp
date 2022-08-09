@@ -1,4 +1,10 @@
 {
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://wpackagist.org"
+    }
+  ],
   "require-dev": {
     "squizlabs/php_codesniffer": "3.*",
     "dealerdirect/phpcodesniffer-composer-installer": "^0.7",
@@ -7,7 +13,6 @@
     "szepeviktor/phpstan-wordpress": "^1.0.3"
   },
   "require": {
-    "php": "^7.4 || <8.1",
     "infinum/eightshift-libs": "^6.0.0",
     "typisttech/imposter-plugin": "^0.6.2"
   },
