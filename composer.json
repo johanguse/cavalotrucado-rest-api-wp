@@ -9,7 +9,8 @@
 		"dealerdirect/phpcodesniffer-composer-installer": "*",
 		"infinum/eightshift-coding-standards": "*",
 		"php-stubs/wordpress-stubs": "*",
-		"szepeviktor/phpstan-wordpress": "*"
+		"szepeviktor/phpstan-wordpress": "*",
+    "phpunit/phpunit": "*"
 	},
 	"require": {
 		"php": "^7.4 || ^8.0",
