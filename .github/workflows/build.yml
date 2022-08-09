@@ -28,11 +28,8 @@ jobs:
         run: composer update --no-ansi --no-interaction --no-progress
 
       - name: Run tests with phpunit/phpunit
-        run: vendor/bin/phpunit --coverage-clover=tests/report/coverage.xml
+        run: vendor/squizlabs/php_codesniffer/bin/phpcs
         continue-on-error: true
-
-      - name: Fix code coverage paths
-        run: sed -i 's@'$GITHUB_WORKSPACE'@/github/workspace/@g' tests/report/coverage.xml
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
