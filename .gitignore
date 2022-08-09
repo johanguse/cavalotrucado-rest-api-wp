@@ -85,12 +85,14 @@ Thumbs.db
 # -------------------------
 
 # track these files, if they exist
+!.github/
 !.gitignore
 !.editorconfig
 !.phpcs.xml.dist
 !README.md
 !CHANGELOG.md
 !composer.json
+!sonar-project.properties
 
 # track favicon files, if they exist
 !android-chrome-*.png
