@@ -27,7 +27,7 @@ jobs:
       - name: Install dependencies with composer
         run: composer update --no-ansi --no-interaction --no-progress
 
-      - name: Run tests with phpunit/phpunit
+      - name: Run tests with pphp_codesniffer ./
         run: vendor/squizlabs/php_codesniffer/bin/phpcs
         continue-on-error: true
 
