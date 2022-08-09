@@ -28,7 +28,7 @@ jobs:
         run: composer update --no-ansi --no-interaction --no-progress
 
       - name: Run tests with pphp_codesniffer
-        run: vendor/squizlabs/php_codesniffer/bin/phpcs themes/cavalotrucado-headless-wordpress
+        run: vendor/squizlabs/php_codesniffer/bin/phpcs wp-content/themes/cavalotrucado-headless-wordpress/
         continue-on-error: true
 
       - name: SonarCloud Scan
