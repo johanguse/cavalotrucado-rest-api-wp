@@ -1,13 +1,19 @@
 {
   "require-dev": {
+    "squizlabs/php_codesniffer": "3.*",
     "dealerdirect/phpcodesniffer-composer-installer": "^0.7",
     "infinum/eightshift-coding-standards": "^1.6",
     "php-stubs/wordpress-stubs": "^5.9",
     "szepeviktor/phpstan-wordpress": "^1.0.3"
   },
   "require": {
-    "php": "^7.4 || <8.1.9",
+    "php": "^7.4 || <8.1",
     "infinum/eightshift-libs": "^6.0.0",
     "typisttech/imposter-plugin": "^0.6.2"
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
   }
 }
