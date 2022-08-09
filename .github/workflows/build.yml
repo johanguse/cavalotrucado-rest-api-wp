@@ -8,31 +8,15 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 jobs:
-  tests:
-    name: Tests
+  sonarcloud:
+    name: SonarCloud
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
         with:
-          fetch-depth: 0
-
-      #      - name: Setup PHP with Xdebug
-      #        uses: shivammathur/setup-php@v2
-      #        with:
-      #          php-version: "8.0"
-      #          coverage: xdebug
-
-      #      - name: Install dependencies with composer
-      #        run: composer update --no-ansi --no-interaction --no-progress
-
-      #      - name: Run tests with pphp_codesniffer
-      #        run: vendor/squizlabs/php_codesniffer/bin/phpcs wp-content/themes/cavalotrucado-headless-wordpress/
-      #        continue-on-error: true
-
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
