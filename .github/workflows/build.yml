@@ -27,7 +27,7 @@ jobs:
       - name: Install dependencies with composer
         run: composer update --no-ansi --no-interaction --no-progress
 
-      - name: Run tests with pphp_codesniffer ./
+      - name: Run tests with pphp_codesniffer themes/cavalotrucado-headless-wordpress
         run: vendor/squizlabs/php_codesniffer/bin/phpcs
         continue-on-error: true
 
