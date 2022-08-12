@@ -4,32 +4,28 @@ on:
   push:
     branches: [main]
 jobs:
-  build:
+  web-deploy:
+    name: 🎉 Deploy
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash
-        working-directory: ./wp-content/themes/cavalotrucado-headless-wordpress
     steps:
-      - uses: actions/checkout@v2
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v2
+
+      - name: Use Node.js 14
+        uses: actions/setup-node@v2
         with:
-          fetch-depth: 2
+          node-version: "14"
 
-      - name: Install Composer Dependencies
-        run: composer install --prefer-dist --no-progress
+      - name: 🔨 Build Project
+        run: |
+          npm install
+          npm run build
 
-      - name: npm install
-        run: npm install
-
-      - name: npm run bundle
-        run: npm run bundle
-
-      - name: FTP Deploy to Hostgator (Staging)
+      - name: 📂 Sync files to Hostgator (Staging)
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
         with:
-          ftp-server: 192.185.222.82
-          ftp-username: deploy-stg@wp-stg.cavalotrucado.com
-          ftp-password: ${{ secrets.STAGING_FTP_PASSWORD }}
-          protocol: ftps
-          port: 21
+          server: 192.185.222.82:21
+          username: deploy-stg@wp-stg.cavalotrucado.com
+          password: ${{ secrets.STAGING_FTP_PASSWORD }}
           local-dir: ./
+          server-dir: ./wp-content/themes/cavalotrucado-headless-wordpress/
