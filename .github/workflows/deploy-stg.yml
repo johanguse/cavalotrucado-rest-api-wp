@@ -27,7 +27,9 @@ jobs:
       - name: FTP Deploy to Hostgator (Staging)
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
         with:
-          ftp-server: ftps-legacy://192.185.222.82:21/
+          ftp-server: 192.185.222.82
           ftp-username: deploy-stg@wp-stg.cavalotrucado.com
           ftp-password: ${{ secrets.STAGING_FTP_PASSWORD }}
+          protocol: ftps
+          port: 21
           local-dir: ./
