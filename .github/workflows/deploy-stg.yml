@@ -14,7 +14,9 @@ jobs:
       - name: 📂 Sync files to Hostgator (Staging)
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
         with:
-          server: 192.185.222.82:21
+          server: 192.185.222.82
+          port: 21
+          protocol: ftps
           username: deploy-stg@wp-stg.cavalotrucado.com
           password: ${{ secrets.STAGING_FTP_PASSWORD }}
           local-dir: ./wp-content/themes/cavalotrucado-headless-wordpress/
