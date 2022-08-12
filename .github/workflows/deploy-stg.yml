@@ -27,5 +27,5 @@ jobs:
           server: 192.185.222.82:21
           username: deploy-stg@wp-stg.cavalotrucado.com
           password: ${{ secrets.STAGING_FTP_PASSWORD }}
-          local-dir: ./
-          server-dir: ./wp-content/themes/cavalotrucado-headless-wordpress/
+          local-dir: ./wp-content/themes/cavalotrucado-headless-wordpress/
+          server-dir: ./
