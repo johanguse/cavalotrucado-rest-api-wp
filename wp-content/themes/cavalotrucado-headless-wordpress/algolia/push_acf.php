@@ -23,6 +23,18 @@ function vehicle_attributes(array $attributes, WP_Post $post)
   $attributes['vehicle_model_name'] = get_field('vehicle_model_name', $post->ID);
   $attributes['vehicle_year'] = get_field('vehicle_year', $post->ID);
   $attributes['vehicle_year_model'] = get_field('vehicle_year_model', $post->ID);
+  //Brand
+  $brand = wp_get_object_terms($post->ID, 'brand');
+  $attributes['brand'] = $brand[0]->name;
+
+  //Thumb
+  $mainImage = get_field('vehicle_main_photo', $post->ID);
+  if ($mainImage):
+    $size = 'thumbnail';
+    $thumb = $mainImage['sizes'][$size];
+    $mainImageUrl = esc_url($thumb);
+  endif;
+  $attributes['vehicle_main_photo'] = $mainImageUrl;
 
   // Always return the value we are filtering.
   return $attributes;
