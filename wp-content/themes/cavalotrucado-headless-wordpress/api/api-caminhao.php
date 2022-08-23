@@ -33,6 +33,14 @@ function get_truck_by_slug($request)
     'vehicle_short_text_3' => get_field('vehicle_short_text_3', $id),
   );
 
+  // Short Text
+  $vehicle['data']['vehicle_short_texts'] = array(
+    'vehicle_short_text_1' => get_field('vehicle_short_text_1', $id),
+    'vehicle_short_text_2' => get_field('vehicle_short_text_2', $id),
+    'vehicle_short_text_3' => get_field('vehicle_short_text_3', $id),
+  );
+
+  // Images
   $images = get_field('vehicle_photos', $id);
   $i = 0;
   foreach ($images as $image) {
