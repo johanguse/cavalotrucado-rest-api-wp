@@ -24,8 +24,9 @@ add_action("admin_menu", "remove_menus");
 
 //include_once("functions/custom-acf-fields.php");
 //include_once("functions/custom-post-types.php");
-//include_once("functions/custom-shortcodes.php");
+include_once("algolia/exclude_post_type.php");
 include_once("algolia/push_acf.php");
+include_once("algolia/settings.php");
 include_once("functions/custom-admin-columns.php");
 
 // APIS Functions
