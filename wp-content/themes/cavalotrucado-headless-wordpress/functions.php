@@ -25,7 +25,7 @@ add_action("admin_menu", "remove_menus");
 //include_once("functions/custom-acf-fields.php");
 //include_once("functions/custom-post-types.php");
 //include_once("functions/custom-shortcodes.php");
-//include_once("functions/custom-taxonomies.php");
+include_once("algolia/push_acf.php");
 include_once("functions/custom-admin-columns.php");
 
 // APIS Functions
@@ -80,3 +80,29 @@ if (!function_exists("acf_nullify_empty")) {
   }
 }
 add_filter("acf/format_value", "acf_nullify_empty", 100, 3);
+
+// ALGOLIA https://webdevstudios.com/2021/02/09/wp-search-with-algolia/
+function wds_algolia_exclude_post($should_index, WP_Post $post)
+{
+
+  // If a page has been marked not searchable
+  // by some other means, don't index the post.
+  if (false === $should_index) {
+    return false;
+  }
+
+
+  // ACF Field.
+  // Check if a page is searchable.
+  $excluded = get_field('exclude_from_search', $post->ID);
+
+  // If not, don't index the post.
+  if (1 === $excluded) {
+    return false;
+  }
+
+  // If all else fails, index the post.
+  return true;
+}
+add_filter('algolia_should_index_searchable_post', 'wds_algolia_exclude_post', 10, 2);
+add_filter('algolia_should_index_post', 'wds_algolia_exclude_post', 10, 2);
