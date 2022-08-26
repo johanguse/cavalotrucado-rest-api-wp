@@ -42,6 +42,8 @@ function vehicle_attributes(array $attributes, WP_Post $post)
   //Brand
   $brand = wp_get_object_terms($post->ID, 'brand');
   $attributes['brand'] = $brand[0]->name;
+  //Localização
+  $attributes['vehicle_state'] = get_field('vehicle_state', $post->ID);
 
   //Thumb
   $mainImage = get_field('vehicle_main_photo', $post->ID);
