@@ -34,6 +34,7 @@ function vehicle_attributes(array $attributes, WP_Post $post)
   $attributes['vehicle_model_name'] = get_field('vehicle_model_name', $post->ID);
   $attributes['vehicle_year'] = get_field('vehicle_year', $post->ID);
   $attributes['vehicle_year_model'] = get_field('vehicle_year_model', $post->ID);
+  $attributes['vehicle_price'] = get_field('vehicle_price', $post->ID);
   //Long Text
   $long_text = get_field('vehicle_long_text', $post->ID);
   $long_text_no_html = strip_tags($long_text);
