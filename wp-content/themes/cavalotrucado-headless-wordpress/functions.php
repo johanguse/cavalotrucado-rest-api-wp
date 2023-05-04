@@ -29,6 +29,9 @@ include_once("algolia/push_acf.php");
 include_once("algolia/settings.php");
 include_once("functions/custom-admin-columns.php");
 
+//define a constant to custom/v1
+define('CUSTOM_API_NAMESPACE', 'custom/v1');
+
 // APIS Functions
 require_once("api/api-caminhao.php");
 
