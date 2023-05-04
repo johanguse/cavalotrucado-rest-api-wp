@@ -99,12 +99,14 @@ function get_truck_by_slug($request)
   return rest_ensure_response($vehicle);
 }
 
-function get_random_4_trucks()
+function get_random_4_trucks($request)
 {
+
+  $posts_per_page = $request['per_page'] ? $request['per_page'] : 4;
 
   $args = [
     'post_status' => 'publish',
-    'numberposts' => 20,
+    'numberposts' => $posts_per_page,
     'orderby' => 'rand',
     'post_type' => 'vehicle'
   ];
@@ -228,6 +230,61 @@ function get_latest_trucks($request)
   return $response;
 }
 
+function get_sold_trucks($request)
+{
+
+  $posts_per_page = $request['per_page'] ? $request['per_page'] : 8;
+
+  $args = [
+    'post_status' => 'sold',
+    'numberposts' => $posts_per_page,
+    'orderby' => 'rand',
+    'post_type' => 'vehicle'
+  ];
+
+  $posts = get_posts($args);
+
+  if (empty($posts)) {
+    return new WP_Error('empty_category', 'There are no posts to display', array('status' => 404));
+  }
+
+  $data = [];
+  $i = 0;
+
+  foreach ($posts as $post) {
+    $mainImage = get_field('vehicle_main_photo', $post->ID);
+    if ($mainImage):
+      $size = 'medium';
+      $thumb = $mainImage['sizes'][$size];
+      $mainImageUrl = esc_url($thumb);
+    endif;
+
+    $brand = wp_get_object_terms($post->ID, 'brand');
+    $data['data'][$i]['id'] = $post->ID;
+    $data['data'][$i]['title'] = $post->post_title;
+    $data['data'][$i]['slug'] = $post->post_name;
+    $data['data'][$i]['brand'] = $brand[0]->name;
+    $data['data'][$i]['vehicle_model_name'] = get_field('vehicle_model_name', $post->ID);
+    $data['data'][$i]['vehicle_year'] = get_field('vehicle_year', $post->ID);
+    $data['data'][$i]['vehicle_year_model'] = get_field('vehicle_year_model', $post->ID);
+    $data['data'][$i]['vehicle_show_price'] = get_field('vehicle_show_price', $post->ID);
+    $data['data'][$i]['vehicle_price'] = get_field('vehicle_price', $post->ID);
+    $data['data'][$i]['vehicle_km'] = get_field('vehicle_km', $post->ID);
+    $data['data'][$i]['vehicle_state'] = get_field('vehicle_state', $post->ID);
+    $data['data'][$i]['vehicle_main_photo'] = $mainImageUrl;
+    $data['data'][$i]['vehicle_short_text_1'] = get_field('vehicle_short_text_1', $post->ID);
+    $data['data'][$i]['vehicle_short_text_2'] = get_field('vehicle_short_text_2', $post->ID);
+    $data['data'][$i]['vehicle_short_text_3'] = get_field('vehicle_short_text_3', $post->ID);
+
+    $i++;
+  }
+
+  $response = new WP_REST_Response($data);
+  $response->set_status(200);
+
+  return $response;
+}
+
 add_action('rest_api_init', function () {
   register_rest_route(CUSTOM_API_NAMESPACE, 'search', [
     'methods' => WP_REST_Server::READABLE,
@@ -245,9 +302,14 @@ add_action('rest_api_init', function () {
     )
   ));
 
-  register_rest_route(CUSTOM_API_NAMESPACE, 'random_4_trucks', [
+  register_rest_route(CUSTOM_API_NAMESPACE, 'random-trucks', [
     'methods' => 'GET',
     'callback' => 'get_random_4_trucks',
+    'args' => array(
+      'per_page' => array(
+        'required' => false
+      )
+    ),
   ]);
 
   register_rest_route(CUSTOM_API_NAMESPACE, 'latest-trucks', [
@@ -261,7 +323,16 @@ add_action('rest_api_init', function () {
         'required' => false
       )
     ),
+  ]);
 
+  register_rest_route(CUSTOM_API_NAMESPACE, 'sold-trucks', [
+    'methods' => 'GET',
+    'callback' => 'get_sold_trucks',
+    'args' => array(
+      'per_page' => array(
+        'required' => false
+      )
+    ),
   ]);
 });
 
@@ -277,6 +348,8 @@ function wprc_add_acf_posts_endpoint($allowedEndpoints)
     $allowedEndpoints[CUSTOM_API_NAMESPACE][] = 'get_last_trucks';
     $allowedEndpoints[CUSTOM_API_NAMESPACE][] = 'truck/(?P<slug>[a-zA-Z0-9-]+)';
     $allowedEndpoints[CUSTOM_API_NAMESPACE][] = 'truck';
+    $allowedEndpoints[CUSTOM_API_NAMESPACE][] = 'search';
+    $allowedEndpoints[CUSTOM_API_NAMESPACE][] = 'get_sold_trucks';
   }
   return $allowedEndpoints;
 }
