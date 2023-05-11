@@ -285,6 +285,34 @@ function get_sold_trucks($request)
   return $response;
 }
 
+function get_brands()
+{
+  $args = array(
+    'taxonomy' => 'brand',
+    'hide_empty' => false,
+  );
+
+  $terms = get_terms($args);
+
+  $data = [];
+  $i = 0;
+
+  foreach ($terms as $term) {
+    $data['data'][$i]['id'] = $term->term_id;
+    $data['data'][$i]['name'] = $term->name;
+    $data['data'][$i]['slug'] = $term->slug;
+    $data['data'][$i]['description'] = $term->description;
+    $data['data'][$i]['count'] = $term->count;
+    $data['data'][$i]['image'] = get_field('model_logo', $term);
+    $i++;
+  }
+
+  $response = new WP_REST_Response($data);
+  $response->set_status(200);
+
+  return $response;
+}
+
 add_action('rest_api_init', function () {
   register_rest_route(CUSTOM_API_NAMESPACE, 'search', [
     'methods' => WP_REST_Server::READABLE,
@@ -334,6 +362,11 @@ add_action('rest_api_init', function () {
       )
     ),
   ]);
+
+  register_rest_route(CUSTOM_API_NAMESPACE, 'brands', [
+    'methods' => 'GET',
+    'callback' => 'get_brands',
+  ]);
 });
 
 /**
@@ -350,6 +383,7 @@ function wprc_add_acf_posts_endpoint($allowedEndpoints)
     $allowedEndpoints[CUSTOM_API_NAMESPACE][] = 'truck';
     $allowedEndpoints[CUSTOM_API_NAMESPACE][] = 'search';
     $allowedEndpoints[CUSTOM_API_NAMESPACE][] = 'get_sold_trucks';
+    $allowedEndpoints[CUSTOM_API_NAMESPACE][] = 'brands';
   }
   return $allowedEndpoints;
 }
